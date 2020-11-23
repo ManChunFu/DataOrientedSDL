@@ -8,22 +8,22 @@ namespace Engine
 	class Window
 	{
 	public:
-		Window(const std::string& _title, int _width, int _height);
+		Window(const std::string& title, int width, int height);
 		~Window();
 
 		bool Init();
 		static SDL_Renderer* Renderer;
 		static void RenderClear() { SDL_RenderClear(Renderer); }
 		static void RenderPresent() { SDL_RenderPresent(Renderer); }
-		int ScreenWidth() { return width; }
-		int ScreenHeight() { return height; }
+		int ScreenWidth() { return _width; }
+		int ScreenHeight() { return _height; }
 
-		static SDL_Window* window;
 	private:
-		std::string title;
-		int width;
-		int height;
-
+		std::string _title;
+		int _width;
+		int _height;
+		
+		SDL_Window* _window = nullptr;
 	};
 }
 

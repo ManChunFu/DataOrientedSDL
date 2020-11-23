@@ -24,9 +24,21 @@
     <ClInclude Include="Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Textures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
+      <Filter>Source Files\Cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Texturesr.cpp">
+      <Filter>Source Files\Cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="InputSystem.cpp">
       <Filter>Source Files\Cpp</Filter>
     </ClCompile>
   </ItemGroup>

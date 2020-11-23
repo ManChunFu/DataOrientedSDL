@@ -8,7 +8,7 @@ SDL_Renderer* Engine::Window::Renderer = nullptr;
 
 namespace Engine
 {
-	Window::Window(const std::string& _title, int _width, int _height) : title(_title), width(_width), height(_height){}
+	Window::Window(const std::string& title, int width, int height) : _title(title), _width(width), _height(height){}
 
 	Window::~Window()
 	{
@@ -18,23 +18,23 @@ namespace Engine
 			Renderer = nullptr;
 		}
 
-		if (window)
+		if (_window)
 		{
-			SDL_DestroyWindow(window);
-			window = nullptr;
+			SDL_DestroyWindow(_window);
+			_window = nullptr;
 		}
 	}
 
 	bool Window::Init()
 	{
-		window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
-		if (window == nullptr)
+		_window = SDL_CreateWindow(_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _width, _height, 0);
+		if (_window == nullptr)
 		{
 			std::cout << "Failed to create window. SDL Error: " << SDL_GetError << std::endl;
 			return false;
 		}
 
-		Renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+		Renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 		if (Renderer == nullptr)
 		{
 			std::cout << "Failed to create SDL_Renderer. SDL Error: " << SDL_GetError << std::endl;
