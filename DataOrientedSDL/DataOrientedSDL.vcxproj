@@ -143,14 +143,23 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="EntityContainerBase.h" />
+    <ClInclude Include="GameTime.h" />
     <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EntityContainerBase.cpp" />
+    <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="InputSystem.cpp" />
-    <ClCompile Include="Texturesr.cpp" />
+    <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Engine.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -9,7 +9,7 @@ struct SDL_Texture;
 
 namespace Engine
 {
-	//typedef std::unordered_map<std::string, SDL_Texture*> Textures;
+	typedef std::unordered_map<std::string, SDL_Texture*> TextureMap;
 
 	static class Textures
 	{
@@ -23,7 +23,7 @@ namespace Engine
 
 	private:
 		static SDL_Texture* LoadTexture(const std::string& texturePath);
-		//static Textures _textures;
+		static TextureMap _textureMap;
 	};
 }
 

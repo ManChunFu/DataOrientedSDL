@@ -143,12 +143,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SpaceShooterGame.cpp" />
+    <ClCompile Include="SpaceShooter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataOrientedSDL\DataOrientedSDL.vcxproj">
       <Project>{a96c64db-d6ad-4ba8-b353-615c39376a9c}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SpaceShooter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

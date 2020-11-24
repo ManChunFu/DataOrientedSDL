@@ -1,11 +1,11 @@
-#include "TextureManager.h"
+#include "Textures.h"
 
 #include <SDL_image.h>
 #include <iostream>
 
 namespace Engine
 {
-	Textures Textures::_textures;
+	TextureMap Textures::_textureMap;
 
 	void Textures::Draw(SDL_Texture* sprite, SDL_Rect srcRect, SDL_Rect desRect)
 	{
@@ -35,39 +35,39 @@ namespace Engine
 		return nullptr;
 	}
 
-	//void Textures::AddTexture(std::string name, const std::string& path)
-	//{
-	//	if (!HasTexture(name))
-	//	{
-	//		SDL_Texture* texture = Engine::Textures::LoadTexture(path);
-	//		_textures.insert({ name, texture });
-	//	}
-	//}
+	void Textures::AddTexture(std::string name, const std::string& path)
+	{
+		if (!HasTexture(name))
+		{
+			SDL_Texture* texture = Engine::Textures::LoadTexture(path);
+			_textureMap.insert({ name, texture });
+		}
+	}
 
-	//bool Textures::HasTexture(std::string name)
-	//{
-	//	auto item = _textures.find(name);
-	//	if (item != _textures.end())
-	//		return true;
+	bool Textures::HasTexture(std::string name)
+	{
+		auto item = _textureMap.find(name);
+		if (item != _textureMap.end())
+			return true;
 
-	//	return false;
-	//}
+		return false;
+	}
 
-	//SDL_Texture* Textures::GetTexture(std::string name)
-	//{
-	//	if (HasTexture(name))
-	//		return _textures.find(name)->second;
+	SDL_Texture* Textures::GetTexture(std::string name)
+	{
+		if (HasTexture(name))
+			return _textureMap.find(name)->second;
 
-	//	return nullptr;
-	//}
+		return nullptr;
+	}
 
-	//void Textures::ShutDown()
-	//{
-	//	for (auto item = _textures.begin(); item != _textures.end(); item++)
-	//	{
-	//		SDL_DestroyTexture(item->second);
-	//	}
-	//	_textures.clear();
-	//}
+	void Textures::ShutDown()
+	{
+		for (auto item = _textureMap.begin(); item != _textureMap.end(); item++)
+		{
+			SDL_DestroyTexture(item->second);
+		}
+		_textureMap.clear();
+	}
 }
 
