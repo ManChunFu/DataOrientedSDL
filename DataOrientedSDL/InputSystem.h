@@ -26,7 +26,7 @@ namespace Engine
 	public:
 		InputSystem();
 		void ShutDown();
-		void Update(bool& isRunning, bool& isPaused);
+		void Update(bool& isRunning);
 		bool IsKeyDown(SDL_Scancode key) const { return _keys[key]; };
 		bool IsKeyPressed(Keys key);
 		bool IsKeyReleased(Keys key);

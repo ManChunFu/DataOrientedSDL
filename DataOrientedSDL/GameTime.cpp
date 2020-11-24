@@ -11,7 +11,7 @@ namespace Engine
 	{
 		startTime = SDL_GetPerformanceCounter();
 	}
-	void Engine::GameTime::EndFram()
+	void Engine::GameTime::EndFrame()
 	{
 		endTime = SDL_GetPerformanceCounter();
 		deltaTime = (endTime - startTime) / (float)SDL_GetPerformanceFrequency();

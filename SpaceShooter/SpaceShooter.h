@@ -13,5 +13,5 @@ Engine::Application* Engine::CreateApplication()
 	return new SpaceShooter();
 }
 	
-Engine::Application* Application;
+Engine::Application* App;
 

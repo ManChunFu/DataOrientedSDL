@@ -9,7 +9,7 @@ namespace Engine
 	public:
 		static float DeltaTime() { return deltaTime; }
 		static void StartFrame();
-		static void EndFram();
+		static void EndFrame();
 
 	private:
 		static Uint64 startTime;

@@ -18,7 +18,7 @@ namespace Engine
 		_keys = nullptr;
 	}
 
-	void InputSystem::Update(bool& isRunning, bool& isPaused)
+	void InputSystem::Update(bool& isRunning)
 	{
 		std::copy(_keys, _keys + 256, _lastKeys);
 		_keys = SDL_GetKeyboardState(nullptr);
