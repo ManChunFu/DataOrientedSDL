@@ -7,8 +7,8 @@ void LaserContainer::Move()
 	for (Uint8 index = 0; index < IndexCounter; index++)
 	{
 		if (PositionsY[index] - Heights[index] < 0)
-			Remove(index);
+			BackToPool(index);
 					
-		PositionsY[index] -= Speed; //* Engine::GameTime::DeltaTime();
+		PositionsY[index] -= Speed * Engine::GameTime::DeltaTime();
 	}
 }

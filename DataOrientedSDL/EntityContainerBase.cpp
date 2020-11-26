@@ -11,6 +11,7 @@ namespace Engine
 		PositionsY = new short[MaxLength];
 		Widths = new short[MaxLength];
 		Heights = new short[MaxLength];
+		Usages = new bool[MaxLength];
 
 		MaxScreenX = maxScreenX;
 		MaxScreenY = maxScreenY;
@@ -23,15 +24,27 @@ namespace Engine
 	short EntityContainerBase::Add(short positionX, short positionY, short width, short height)
 	{
 		if (IndexCounter >= MaxLength)
-			return -1;
+		{ 
+			short unusedIndex = CheckEntityUsage();
+			
+ 			PositionsX[unusedIndex] = positionX;
+			PositionsY[unusedIndex] = positionY;
+			Widths[unusedIndex] = width;
+			Heights[unusedIndex] = height;
+			Usages[unusedIndex] = true;
 
+			return unusedIndex;
+		}
+		else
+		{
+			PositionsX[IndexCounter] = positionX;
+			PositionsY[IndexCounter] = positionY;
+			Widths[IndexCounter] = width;
+			Heights[IndexCounter] = height;
+			Usages[IndexCounter] = true;
 
-		PositionsX[IndexCounter] = positionX;
-		PositionsY[IndexCounter] = positionY;
-		Widths[IndexCounter] = width;
-		Heights[IndexCounter] = height;
-
-		return IndexCounter++;
+			return IndexCounter++;
+		}
 	}
 
 	short EntityContainerBase::CheckEntityUsage()
@@ -45,38 +58,11 @@ namespace Engine
 	}
 
 
-	void EntityContainerBase::Remove(short index)
+	void EntityContainerBase::BackToPool(short index)
 	{
-		PositionsX[index] = NULL;
-		PositionsY[index] = NULL;
-		Widths[index] = NULL;
-		Heights[index] = NULL;
+		Usages[index] = false;
 	}
-
-	void EntityContainerBase::Move(short index, short incrementX, short incrementY)
-	{
-		
-		/*if (incrementX != 0)
-		{
-			short newX = PositionsX[index] + incrementX;
-			short currentWidth = Widths[index];
-			short rigthBoarder = _maxScreenX - currentWidth;
-
-			if (newX > 0 && newX < rigthBoarder)
-				PositionsX[index] = newX;
-			else
-				BoundaryBehavior(index, newX, NULL, currentWidth, rigthBoarder);
-		}
-
-		if (incrementY != 0)
-		{
-			short newY = PositionsY[index] + incrementY;
-			if (newY > 0 && newY < _maxScreenY - Heights[index])
-				PositionsY[index] = newY;
-			else
-				BoundaryBehavior(index, NULL, newY, currentWidth, rigthBoarder);
-		}*/
-	}
+	
 
 	SDL_Texture* EntityContainerBase::AddImage(const std::string& path)
 	{
@@ -95,6 +81,8 @@ namespace Engine
 
 	void EntityContainerBase::ShutDown()
 	{
+		IndexCounter = 0;
+
 		delete []PositionsX;
 		PositionsX = nullptr;
 
@@ -106,6 +94,9 @@ namespace Engine
 
 		delete []Heights;
 		Heights = nullptr;
+
+		delete[]Usages;
+		Usages = nullptr;
 	}
 
 }

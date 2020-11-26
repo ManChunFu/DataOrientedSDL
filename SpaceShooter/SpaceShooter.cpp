@@ -54,12 +54,12 @@ bool Engine::Application::Initialize()
 	_backgroundTexture = background.CreateTexture("Assets/SpaceBG_Overlay.png");
 	
 	// player
-	playerContainer.Init(1, background.MaxScreenX, background.MaxScreenY, 100, 128);
-	playerContainer.IndexID = playerContainer.Add(500, 500, 70, 88);
+	playerContainer.Init(1, background.MaxScreenX, background.MaxScreenY, 70, 90);
+	playerContainer.IndexID = playerContainer.Add(500, 500, 70, 90);
 	playerContainer.Sprite = playerContainer.AddImage("Assets/Player.png");
 
 	// Laser
-	laserContainer.Init(5, background.MaxScreenX, background.MaxScreenY, 10, 50);
+	laserContainer.Init(10, background.MaxScreenX, background.MaxScreenY, 10, 50);
 	laserContainer.Sprite = laserContainer.AddImage("Assets/laser.png");
 
 	return true;
@@ -93,7 +93,6 @@ void Engine::Application::Run()
 
 void Engine::Application::Update()
 {
-	//if (laserContainer.IsRendering)
 	laserContainer.Move();
 }
 
@@ -113,7 +112,6 @@ void Engine::Application::ListenInputs()
 			playerContainer.PositionsX[playerContainer.IndexID] + playerContainer.Widths[playerContainer.IndexID] / 2,
 			playerContainer.PositionsY[playerContainer.IndexID] - playerContainer.Heights[playerContainer.IndexID], 10, 50);
 		
-		//laserContainer.IsRendering = true;
 	}
 }
 
@@ -127,7 +125,6 @@ void Engine::Application::Render()
 	//Player
 	playerContainer.Render(playerContainer.Sprite);
 
-	//if (laserContainer.IsRendering)
 	if (laserContainer.IndexCounter > 0)
 		laserContainer.Render(laserContainer.Sprite);
 
