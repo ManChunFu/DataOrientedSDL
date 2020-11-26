@@ -55,8 +55,8 @@ bool Engine::Application::Initialize()
 	
 	// player
 	playerContainer.Init(1, background.MaxScreenX, background.MaxScreenY, 70, 90);
-	playerContainer.IndexID = playerContainer.Add(500, 500, 70, 90);
 	playerContainer.Sprite = playerContainer.AddImage("Assets/Player.png");
+	playerContainer.Add(500, 500, 70, 90);
 
 	// Laser
 	laserContainer.Init(10, background.MaxScreenX, background.MaxScreenY, 10, 50);
@@ -103,15 +103,13 @@ void Engine::Application::ListenInputs()
 	if (InputSystem->IsKeyPressed(Keys::ESCAPE))
 		IsRunning = false;
 
-	playerContainer.Move(InputSystem->GetAxis("Horizontal") * playerContainer.Speed * Engine::GameTime::DeltaTime(), 
-		InputSystem->GetAxis("Vertical") * playerContainer.Speed * Engine::GameTime::DeltaTime());
+	//Player
+	playerContainer.Move(InputSystem->GetAxis("Horizontal"), InputSystem->GetAxis("Vertical"));
 
 	if (InputSystem->IsKeyPressed(Keys::SPACE))
 	{
-		laserContainer.IndexID = laserContainer.Add(
-			playerContainer.PositionsX[playerContainer.IndexID] + playerContainer.Widths[playerContainer.IndexID] / 2,
-			playerContainer.PositionsY[playerContainer.IndexID] - playerContainer.Heights[playerContainer.IndexID], 10, 50);
-		
+		// 31 => size of player half width sprite + laser half width sprite. 45 => size of player half height sprite
+		laserContainer.Add((playerContainer.PositionsX[0] + 31), (playerContainer.PositionsY[0] - 45), 10, 50);
 	}
 }
 
@@ -125,8 +123,8 @@ void Engine::Application::Render()
 	//Player
 	playerContainer.Render(playerContainer.Sprite);
 
-	if (laserContainer.IndexCounter > 0)
-		laserContainer.Render(laserContainer.Sprite);
+	//Laser
+	laserContainer.Render(laserContainer.Sprite);
 
 	Engine::Window::RenderPresent();
 }

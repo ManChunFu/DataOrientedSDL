@@ -22,7 +22,7 @@ namespace Engine
 		short MaxLength;
 
 		void Init(short maxLength, short maxScreenX, short maxScreenY, Uint8 textureWidth, Uint8 textureHeight);
-		short Add(short positionX, short positionY, short widths, short height);
+		void Add(short positionX, short positionY, short widths, short height);
 		void BackToPool(short index);
 		SDL_Texture* AddImage(const std::string& path);
 		void Render(SDL_Texture* sprite);

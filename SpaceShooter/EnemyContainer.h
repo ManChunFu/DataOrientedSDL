@@ -2,8 +2,13 @@
 
 #include <EntityContainerBase.h>
 
-class EnemyContainer : public Engine::EntityContainerBase
+struct EnemyContainer : public Engine::EntityContainerBase
 {
+public:
+	SDL_Texture* Sprite;
+	const short Speed = 300;
+
+	void Move();
 
 };
 

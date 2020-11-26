@@ -21,7 +21,7 @@ namespace Engine
 
 	}
 
-	short EntityContainerBase::Add(short positionX, short positionY, short width, short height)
+	void EntityContainerBase::Add(short positionX, short positionY, short width, short height)
 	{
 		if (IndexCounter >= MaxLength)
 		{ 
@@ -32,8 +32,6 @@ namespace Engine
 			Widths[unusedIndex] = width;
 			Heights[unusedIndex] = height;
 			Usages[unusedIndex] = true;
-
-			return unusedIndex;
 		}
 		else
 		{
@@ -41,9 +39,7 @@ namespace Engine
 			PositionsY[IndexCounter] = positionY;
 			Widths[IndexCounter] = width;
 			Heights[IndexCounter] = height;
-			Usages[IndexCounter] = true;
-
-			return IndexCounter++;
+			Usages[IndexCounter++] = true;
 		}
 	}
 
@@ -61,7 +57,7 @@ namespace Engine
 	void EntityContainerBase::BackToPool(short index)
 	{
 		Usages[index] = false;
-	}
+}
 	
 
 	SDL_Texture* EntityContainerBase::AddImage(const std::string& path)
@@ -73,7 +69,8 @@ namespace Engine
 	{
 		for (Uint16 index = 0; index < IndexCounter; index++)
 		{
-			Draw(sprite, { 0, 0, _textureWidth, _textureHeight },
+			if (Usages[index])
+				Draw(sprite, { 0, 0, _textureWidth, _textureHeight },
 				{ PositionsX[index], PositionsY[index], Widths[index], Heights[index]});
 		}
 	}
