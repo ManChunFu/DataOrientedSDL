@@ -1,27 +1,34 @@
 #pragma once
 #include <SDL_stdinc.h>
 #include <vector>
-
+#include <string>
+#include <SDL_image.h>
+#include "RenderBase.h"
 
 namespace Engine
 {
-	class EntityContainerBase
+
+	struct EntityContainerBase : public RenderBase
 	{
 	public:
-		static Uint8* PositionsY;
-		static Uint8* PositionsX;
-		static Uint8* Widths;
-		static Uint8* Heights;
-		static 
+		short* PositionsX;
+		short* PositionsY;
+		short* Widths;
+		short* Heights;
+		static SDL_Texture* SpriteTexture;
 
-		void Add(Uint8 positionY, Uint8 positionX, Uint8 widths, Uint8  height);
-		void Remove(Uint8 index);
-		void Move(Uint8 index, Uint8 incrementX, Uint8 incrementY);
-		void Draw(Uint8 index);
-
+		void Init(short maxLength, short maxScreenX, short maxScreenY, Uint8 textureWidth, Uint8 textureHeight);
+		void Add(short positionX, short positionY, short widths, short height);
+		void Remove(short index);
+		void Move(short index, short incrementX, short incrementY);
+		void AddImage(const std::string& path);
+		void Render();
 		void ShutDown();
 	private:
-		static Uint8 indexCounter;
+		short _indexCounter = 0;
+		short _maxScreenX, _maxScreenY = 0;
+		Uint8 _textureWidth, _textureHeight = 0;
+		
 	};
 }
 

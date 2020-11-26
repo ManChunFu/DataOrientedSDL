@@ -143,6 +143,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EnemyContainer.cpp" />
+    <ClCompile Include="PlayerContainer.cpp" />
     <ClCompile Include="SpaceShooter.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +153,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EnemyContainer.h" />
+    <ClInclude Include="PlayerContainer.h" />
     <ClInclude Include="SpaceShooter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

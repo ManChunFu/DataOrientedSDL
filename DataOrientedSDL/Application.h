@@ -3,14 +3,13 @@
 #include "Window.h"
 #include "EntityContainerBase.h"
 #include "InputSystem.h"
-#include "Textures.h"
+#include "RenderBase.h"
 
 namespace Engine
 {
 	class Window;
 	class InputSystem;
 	class EntityContainerBase;
-	class Textures;
 
 	class Application
 	{
@@ -31,8 +30,8 @@ namespace Engine
 
 	private:
 		//std::vector<Scene*> _scenes;
-		void Update();
-		void HandleEvents();
+		//void Update();
+		void ListenInputs();
 		void Render();
 	};
 

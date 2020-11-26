@@ -1,7 +1,8 @@
 #pragma once
 
 #include <Application.h>
-
+#include "PlayerContainer.h"
+	
 class SpaceShooter : public Engine::Application
 {
 public:
@@ -14,4 +15,7 @@ Engine::Application* Engine::CreateApplication()
 }
 	
 Engine::Application* App;
+SDL_Texture* _backgroundTexture;
+Engine::RenderBase background;
+PlayerContainer playerContainer;
 

@@ -2,8 +2,8 @@
 #include <Window.h>
 #include <iostream>
 #include <SDL_image.h>
-#include <Scene.cpp>
 #include <GameTime.h>
+#include <RenderBase.h>
 
 
 int main(int argc, char** argv)
@@ -48,6 +48,13 @@ bool Engine::Application::Initialize()
 	}
 
 	InputSystem = new Engine::InputSystem();
+	
+	// new codes
+	_backgroundTexture = background.CreateTexture("Assets/SpaceBG_Overlay.png");
+	
+	playerContainer.Init(1, 1440, 900, 100, 128);
+	playerContainer.Add(500, 500, 70, 88);
+	playerContainer.AddImage("Assets/Player.png");
 
 	return true;
 }
@@ -63,10 +70,11 @@ void Engine::Application::Run()
 	{
 		Engine::GameTime::StartFrame();
 		frameStartTick = SDL_GetTicks();
+
 		Engine::Window::RenderClear();
-		Update();
-		HandleEvents();
+		ListenInputs();
 		Render();
+
 		frameTime = SDL_GetTicks() - frameStartTick;
 		if (frameDelay > frameTime) {
 			if (frameDelay - frameTime > 0)
@@ -74,6 +82,31 @@ void Engine::Application::Run()
 		}
 		Engine::GameTime::EndFrame();
 	}
+}
+
+
+void Engine::Application::ListenInputs()
+{
+	InputSystem->Update(IsRunning);
+
+	if (InputSystem->IsKeyPressed(Keys::ESCAPE))
+		IsRunning = false;
+
+	playerContainer.Move(0, InputSystem->GetAxis("Horizontal") * playerContainer.Speed * Engine::GameTime::DeltaTime(), InputSystem->GetAxis("Vertical") * playerContainer.Speed * Engine::GameTime::DeltaTime());
+
+}
+
+void Engine::Application::Render()
+{
+	SDL_SetRenderDrawColor(Engine::Window::Renderer, 100, 100, 100, 255);//background color
+
+	//Background
+	background.Draw(_backgroundTexture, { 0, 0, 1920, 1080 }, { 0, 0, 1440, 900 });
+
+	//Player
+	playerContainer.Render();
+
+	Engine::Window::RenderPresent();
 }
 
 void Engine::Application::ShutDown()
@@ -87,68 +120,11 @@ void Engine::Application::ShutDown()
 		delete Window;
 		Window = nullptr;
 	}
-	Engine::Textures::ShutDown();
+	
+	playerContainer.ShutDown();
+
 	IMG_Quit();
 	SDL_Quit();
 }
-
-
-void Engine::Application::HandleEvents()
-{
-	/*if (!App->IsPause)
-	{
-		Engine::Scene::ActiveScene->HandleEvents();
-	}*/
-	/*if (InputSystem->IsKeyPressed(Keys::BACKSPACE))
-	{
-		LoadScene(0);
-	}*/
-}
-
-void Engine::Application::Update()
-{
-	InputSystem->Update(IsRunning);
-	if (ActiveScene == 1 && InputSystem->IsKeyPressed(Keys::ESCAPE))
-	{
-		IsPause = !IsPause;
-		//if (!IsPause)
-		//{
-		//	InputSystem->ClearClickables();
-		//	Engine::UIManager::ActiveCanvas = 10;
-		//}
-		//else
-		//{
-		//	Engine::UIManager::ActiveCanvas = 2;
-		//	scenes[3]->Start();
-		//}
-	}
-	/*Engine::UIManager::Update();
-	if (!application->Pause)
-	{
-		Engine::Scene::ActiveScene->Update();
-	}*/
-
-}
-
-void Engine::Application::Render()
-{
-	SDL_SetRenderDrawColor(Engine::Window::Renderer, 100, 100, 100, 255);//background color
-	Engine::Textures::AddTexture("StarBackground", "Assets/Stars_Background.png");
-	Engine::Textures::Draw(Textures::GetTexture("StarBackground"), { 0, 0, 1400, 900 }, { 0, 0, 1400, 900 });
-	//Engine::Scene::ActiveScene->Render();
-	//Engine::UIManager::Render();
-	Engine::Window::RenderPresent();
-}
-//void Engine::Application::LoadScene(int scene)
-//{
-//	Engine::Scene::ActiveScene->Shutdown();
-//	Engine::Scene::ActiveScene = scenes[scene];
-//	Engine::Scene::ActiveScene->Start();
-//	Engine::UIManager::ActiveCanvas = scene;
-//	Engine::Camera::ActiveCamera = scenes[scene]->Camera();
-//	inputManager->ClearClickables();
-//	scenes[scene]->AddClickables();
-//	ActiveScene = scene;
-//}
 
 

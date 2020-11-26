@@ -39,30 +39,20 @@ namespace Engine
 		{
 		case W:
 			return IsKeyPressedScancode(SDL_SCANCODE_W);
-			break;
 		case E:
 			return IsKeyPressedScancode(SDL_SCANCODE_E);
-			break;
 		case R:
 			return IsKeyPressedScancode(SDL_SCANCODE_R);
-			break;
 		case A:
 			return IsKeyPressedScancode(SDL_SCANCODE_A);
-			break;
 		case S:
 			return IsKeyPressedScancode(SDL_SCANCODE_S);
-			break;
 		case D:
 			return IsKeyPressedScancode(SDL_SCANCODE_D);
-			break;
 		case ESCAPE:
 			return IsKeyPressedScancode(SDL_SCANCODE_ESCAPE);
-			break;
 		case SPACE:
 			return IsKeyPressedScancode(SDL_SCANCODE_SPACE);
-			break;
-		default:
-			break;
 		}
 
 		return false;
@@ -74,30 +64,20 @@ namespace Engine
 		{
 		case W:
 			return IsKeyReleasedScancode(SDL_SCANCODE_W);
-			break;
 		case E:
 			return IsKeyReleasedScancode(SDL_SCANCODE_E);
-			break;
 		case R:
 			return IsKeyReleasedScancode(SDL_SCANCODE_R);
-			break;
 		case A:
 			return IsKeyReleasedScancode(SDL_SCANCODE_A);
-			break;
 		case S:
 			return IsKeyReleasedScancode(SDL_SCANCODE_S);
-			break;
 		case D:
 			return IsKeyReleasedScancode(SDL_SCANCODE_D);
-			break;
 		case ESCAPE:
 			return IsKeyReleasedScancode(SDL_SCANCODE_ESCAPE);
-			break;
 		case SPACE:
 			return IsKeyReleasedScancode(SDL_SCANCODE_SPACE);
-			break;
-		default:
-			break;
 		}
 
 		return false;

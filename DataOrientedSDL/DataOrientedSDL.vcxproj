@@ -149,7 +149,7 @@
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="Textures.h" />
+    <ClInclude Include="RenderBase.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
@@ -157,7 +157,7 @@
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="RenderBase.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
