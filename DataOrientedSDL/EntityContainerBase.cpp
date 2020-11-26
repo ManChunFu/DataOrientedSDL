@@ -4,45 +4,68 @@
 
 namespace Engine
 {
-	SDL_Texture* EntityContainerBase::SpriteTexture;
-
 	void EntityContainerBase::Init(short maxLength, short maxScreenX, short maxScreenY, Uint8 textureWidth, Uint8 textureHeight)
 	{
-		PositionsX = new short[maxLength];
-		PositionsY = new short[maxLength];
-		Widths = new short[maxLength];
-		Heights = new short[maxLength];
+		MaxLength = maxLength;
+		PositionsX = new short[MaxLength];
+		PositionsY = new short[MaxLength];
+		Widths = new short[MaxLength];
+		Heights = new short[MaxLength];
 
-		_maxScreenX = maxScreenX;
-		_maxScreenY = maxScreenY;
+		MaxScreenX = maxScreenX;
+		MaxScreenY = maxScreenY;
 
 		_textureWidth = textureWidth;
 		_textureHeight = textureHeight;
+
 	}
 
-	void Engine::EntityContainerBase::Add(short positionX, short positionY, short width, short height)
+	short EntityContainerBase::Add(short positionX, short positionY, short width, short height)
 	{
-		PositionsX[_indexCounter] = positionX;
-		PositionsY[_indexCounter] = positionY;
-		Widths[_indexCounter] = width;
-		Heights[_indexCounter++] = height;
+		if (IndexCounter >= MaxLength)
+			return -1;
+
+
+		PositionsX[IndexCounter] = positionX;
+		PositionsY[IndexCounter] = positionY;
+		Widths[IndexCounter] = width;
+		Heights[IndexCounter] = height;
+
+		return IndexCounter++;
 	}
+
+	short EntityContainerBase::CheckEntityUsage()
+	{
+		for (short index = 0; index < IndexCounter; index++)
+		{
+			if (!Usages[index])
+				return index;
+		}
+		return -1;
+	}
+
 
 	void EntityContainerBase::Remove(short index)
 	{
-		PositionsY[index] = NULL;
 		PositionsX[index] = NULL;
+		PositionsY[index] = NULL;
 		Widths[index] = NULL;
 		Heights[index] = NULL;
 	}
 
 	void EntityContainerBase::Move(short index, short incrementX, short incrementY)
 	{
-		if (incrementX != 0)
+		
+		/*if (incrementX != 0)
 		{
 			short newX = PositionsX[index] + incrementX;
-			if (newX > 0 && newX < _maxScreenX - Widths[index])
+			short currentWidth = Widths[index];
+			short rigthBoarder = _maxScreenX - currentWidth;
+
+			if (newX > 0 && newX < rigthBoarder)
 				PositionsX[index] = newX;
+			else
+				BoundaryBehavior(index, newX, NULL, currentWidth, rigthBoarder);
 		}
 
 		if (incrementY != 0)
@@ -50,19 +73,21 @@ namespace Engine
 			short newY = PositionsY[index] + incrementY;
 			if (newY > 0 && newY < _maxScreenY - Heights[index])
 				PositionsY[index] = newY;
-		}
+			else
+				BoundaryBehavior(index, NULL, newY, currentWidth, rigthBoarder);
+		}*/
 	}
 
-	void EntityContainerBase::AddImage(const std::string& path)
+	SDL_Texture* EntityContainerBase::AddImage(const std::string& path)
 	{
-		SpriteTexture = CreateTexture(path);
+		return CreateTexture(path);
 	}
 
-	void EntityContainerBase::Render()
+	void EntityContainerBase::Render(SDL_Texture* sprite)
 	{
-		for (Uint16 index = 0; index < _indexCounter; index++)
+		for (Uint16 index = 0; index < IndexCounter; index++)
 		{
-			Draw(SpriteTexture, { 0, 0, _textureWidth, _textureHeight },
+			Draw(sprite, { 0, 0, _textureWidth, _textureHeight },
 				{ PositionsX[index], PositionsY[index], Widths[index], Heights[index]});
 		}
 	}
@@ -70,19 +95,17 @@ namespace Engine
 
 	void EntityContainerBase::ShutDown()
 	{
-		SDL_DestroyTexture(SpriteTexture);
-		SpriteTexture = nullptr;
-
-		delete PositionsX;
+		delete []PositionsX;
 		PositionsX = nullptr;
 
-		delete PositionsY;
+		delete []PositionsY;
 		PositionsY = nullptr;
 
-		delete Widths;
+		delete []Widths;
 		Widths = nullptr;
 
-		delete Heights;
+		delete []Heights;
 		Heights = nullptr;
 	}
+
 }

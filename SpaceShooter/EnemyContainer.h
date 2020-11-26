@@ -4,5 +4,6 @@
 
 class EnemyContainer : public Engine::EntityContainerBase
 {
+
 };
 

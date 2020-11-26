@@ -40,7 +40,8 @@ bool Engine::Application::Initialize()
 		return false;
 	}
 
-	Window = new Engine::Window("Main Window", 1440, 900);
+	Window = new Engine::Window("Main Window", background.MaxScreenX = 1440, background.MaxScreenY = 900);
+
 	if (!Window->Init())
 	{
 		std::cout << "Failed to initialize. SDL Error: " << SDL_GetError << std::endl;
@@ -52,9 +53,14 @@ bool Engine::Application::Initialize()
 	// new codes
 	_backgroundTexture = background.CreateTexture("Assets/SpaceBG_Overlay.png");
 	
-	playerContainer.Init(1, 1440, 900, 100, 128);
-	playerContainer.Add(500, 500, 70, 88);
-	playerContainer.AddImage("Assets/Player.png");
+	// player
+	playerContainer.Init(1, background.MaxScreenX, background.MaxScreenY, 100, 128);
+	playerContainer.IndexID = playerContainer.Add(500, 500, 70, 88);
+	playerContainer.Sprite = playerContainer.AddImage("Assets/Player.png");
+
+	// Laser
+	laserContainer.Init(5, background.MaxScreenX, background.MaxScreenY, 10, 50);
+	laserContainer.Sprite = laserContainer.AddImage("Assets/laser.png");
 
 	return true;
 }
@@ -72,6 +78,7 @@ void Engine::Application::Run()
 		frameStartTick = SDL_GetTicks();
 
 		Engine::Window::RenderClear();
+		Update();
 		ListenInputs();
 		Render();
 
@@ -84,6 +91,11 @@ void Engine::Application::Run()
 	}
 }
 
+void Engine::Application::Update()
+{
+	//if (laserContainer.IsRendering)
+	laserContainer.Move();
+}
 
 void Engine::Application::ListenInputs()
 {
@@ -92,8 +104,17 @@ void Engine::Application::ListenInputs()
 	if (InputSystem->IsKeyPressed(Keys::ESCAPE))
 		IsRunning = false;
 
-	playerContainer.Move(0, InputSystem->GetAxis("Horizontal") * playerContainer.Speed * Engine::GameTime::DeltaTime(), InputSystem->GetAxis("Vertical") * playerContainer.Speed * Engine::GameTime::DeltaTime());
+	playerContainer.Move(InputSystem->GetAxis("Horizontal") * playerContainer.Speed * Engine::GameTime::DeltaTime(), 
+		InputSystem->GetAxis("Vertical") * playerContainer.Speed * Engine::GameTime::DeltaTime());
 
+	if (InputSystem->IsKeyPressed(Keys::SPACE))
+	{
+		laserContainer.IndexID = laserContainer.Add(
+			playerContainer.PositionsX[playerContainer.IndexID] + playerContainer.Widths[playerContainer.IndexID] / 2,
+			playerContainer.PositionsY[playerContainer.IndexID] - playerContainer.Heights[playerContainer.IndexID], 10, 50);
+		
+		//laserContainer.IsRendering = true;
+	}
 }
 
 void Engine::Application::Render()
@@ -101,10 +122,14 @@ void Engine::Application::Render()
 	SDL_SetRenderDrawColor(Engine::Window::Renderer, 100, 100, 100, 255);//background color
 
 	//Background
-	background.Draw(_backgroundTexture, { 0, 0, 1920, 1080 }, { 0, 0, 1440, 900 });
+	background.Draw(_backgroundTexture, { 0, 0, 1440, 900 }, { 0, 0, background.MaxScreenX, background.MaxScreenY });
 
 	//Player
-	playerContainer.Render();
+	playerContainer.Render(playerContainer.Sprite);
+
+	//if (laserContainer.IsRendering)
+	if (laserContainer.IndexCounter > 0)
+		laserContainer.Render(laserContainer.Sprite);
 
 	Engine::Window::RenderPresent();
 }
@@ -122,6 +147,7 @@ void Engine::Application::ShutDown()
 	}
 	
 	playerContainer.ShutDown();
+	laserContainer.ShutDown();
 
 	IMG_Quit();
 	SDL_Quit();

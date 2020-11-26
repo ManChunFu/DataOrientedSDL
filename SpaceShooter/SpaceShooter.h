@@ -2,6 +2,7 @@
 
 #include <Application.h>
 #include "PlayerContainer.h"
+#include "LaserContainer.h"
 	
 class SpaceShooter : public Engine::Application
 {
@@ -18,4 +19,5 @@ Engine::Application* App;
 SDL_Texture* _backgroundTexture;
 Engine::RenderBase background;
 PlayerContainer playerContainer;
+LaserContainer laserContainer;
 

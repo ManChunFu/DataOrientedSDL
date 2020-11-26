@@ -20,6 +20,7 @@ namespace Engine
 
 		bool Initialize();
 		void Run();
+		void Update();
 		void ShutDown();
 		//void LoadScene(Uint8 scene);
 		Engine::Window* Window = nullptr;
