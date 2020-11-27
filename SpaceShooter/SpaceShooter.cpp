@@ -54,19 +54,15 @@ bool Engine::Application::Initialize()
 	_backgroundTexture = background.CreateTexture("Assets/SpaceBG_Overlay.png");
 	
 	// Player
-	playerContainer.Init(1, background.MaxScreenX, background.MaxScreenY, 70, 90);
-	playerContainer.Sprite = playerContainer.AddImage("Assets/Player.png");
+	playerContainer.Init(1, background.MaxScreenX, background.MaxScreenY, 70, 90, "Assets/Player.png");
 	playerContainer.Add(700, 800, playerContainer.TextureWidth, playerContainer.TextureHeight);
 
 	// Laser
-	laserContainer.Init(10, background.MaxScreenX, background.MaxScreenY, 8, 40);
-	laserContainer.Sprite = laserContainer.AddImage("Assets/laser.png");
+	laserContainer.Init(50, background.MaxScreenX, background.MaxScreenY, 8, 40, "Assets/laser.png");
 
 	// Enemy
-	enemyContainer.Init(10, background.MaxScreenX, background.MaxScreenY, 100, 130);
-	enemyContainer.Sprite = enemyContainer.AddImage("Assets/Enemy.png");
+	enemyContainer.Init(50, background.MaxScreenX, background.MaxScreenY, 100, 130, "Assets/Enemy.png");
 
-	//laserContainer.enemyContainer = enemyContainer;
 	return true;
 }
 
@@ -98,16 +94,17 @@ void Engine::Application::Run()
 
 void Engine::Application::Update()
 {
-	spawnTimer += Engine::GameTime::DeltaTime();
+	spawnManager.SpawnTimer += Engine::GameTime::DeltaTime();
 
-	laserContainer.Move(enemyContainer);
-
-	if (spawnTimer > spawnRate)
+	if (spawnManager.SpawnTimer > spawnManager.EnemySpawnRate)
 	{
-		spawnTimer = 0;
-		enemyContainer.Add(enemyContainer.RandomPositionX(), -enemyContainer.TextureHeight, enemyContainer.TextureWidth, enemyContainer.TextureHeight);
+		spawnManager.SpawnTimer = 0;
+		spawnManager.AddWave((rand() % 10), enemyContainer);
+		//spawnManager.AddWave(3, enemyContainer); 
 	}
+
 	enemyContainer.Move();
+	laserContainer.Move(enemyContainer);
 }
 
 void Engine::Application::CheckCollision()
@@ -140,13 +137,13 @@ void Engine::Application::Render()
 	background.Draw(_backgroundTexture, { 0, 0, 1440, 900 }, { 0, 0, background.MaxScreenX, background.MaxScreenY });
 
 	//Player
-	playerContainer.Render(playerContainer.Sprite);
+	playerContainer.Render();
 
 	//Laser
-	laserContainer.Render(laserContainer.Sprite);
+	laserContainer.Render();
 
 	//Enemy
-	enemyContainer.Render(enemyContainer.Sprite);
+	enemyContainer.Render();
 
 	Engine::Window::RenderPresent();
 }

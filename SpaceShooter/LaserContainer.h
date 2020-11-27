@@ -6,7 +6,6 @@
 struct LaserContainer : public Engine::EntityContainerBase
 {
 public:
-	SDL_Texture* Sprite;
 	const short Speed = 800;
 	const Uint8 InstantiateOffsetX = 31;
 	const Uint8 InstantiateOffsetY = 45;

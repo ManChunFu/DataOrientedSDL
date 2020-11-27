@@ -4,6 +4,7 @@
 #include "PlayerContainer.h"
 #include "LaserContainer.h"
 #include "EnemyContainer.h"
+#include "SpawnManager.h"
 	
 class SpaceShooter : public Engine::Application
 {
@@ -21,7 +22,6 @@ SDL_Texture* _backgroundTexture;
 Engine::RenderBase background;
 PlayerContainer playerContainer;
 LaserContainer laserContainer;
-static EnemyContainer enemyContainer;
-float spawnRate = 5;
-float spawnTimer = 0;
+EnemyContainer enemyContainer;
+SpawnManager spawnManager;
 

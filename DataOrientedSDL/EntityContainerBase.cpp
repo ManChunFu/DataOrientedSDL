@@ -4,7 +4,7 @@
 
 namespace Engine
 {
-	void EntityContainerBase::Init(short maxLength, short maxScreenX, short maxScreenY, short textureWidth, short textureHeight)
+	void EntityContainerBase::Init(short maxLength, short maxScreenX, short maxScreenY, short textureWidth, short textureHeight, const std::string& path)
 	{
 		MaxLength = maxLength;
 		PositionsX = new short[MaxLength];
@@ -19,26 +19,22 @@ namespace Engine
 		TextureWidth = textureWidth;
 		TextureHeight = textureHeight;
 
+		Sprite = CreateTexture(path);
 	}
 
 	void EntityContainerBase::Add(short positionX, short positionY, short width, short height)
 	{
-		if (IndexCounter >= MaxLength)
-		{ 
-			short unusedIndex = CheckEntityUsage();
-			
-			if (unusedIndex != -1)
-			{
-				PositionsX[unusedIndex] = positionX;
-				PositionsY[unusedIndex] = positionY;
-				Widths[unusedIndex] = width;
-				Heights[unusedIndex] = height;
-				Usages[unusedIndex] = true;
-			}
-			else
-				return;
+		short unusedIndex = CheckEntityUsage();
+
+		if (unusedIndex != -1)
+		{
+			PositionsX[unusedIndex] = positionX;
+			PositionsY[unusedIndex] = positionY;
+			Widths[unusedIndex] = width;
+			Heights[unusedIndex] = height;
+			Usages[unusedIndex] = true;
 		}
-		else
+		else if (IndexCounter < MaxLength)
 		{
 			PositionsX[IndexCounter] = positionX;
 			PositionsY[IndexCounter] = positionY;
@@ -70,12 +66,12 @@ namespace Engine
 		return CreateTexture(path);
 	}
 
-	void EntityContainerBase::Render(SDL_Texture* sprite)
+	void EntityContainerBase::Render()
 	{
 		for (Uint16 index = 0; index < IndexCounter; index++)
 		{
 			if (Usages[index])
-				Draw(sprite, { 0, 0, TextureWidth, TextureHeight },
+				Draw(Sprite, { 0, 0, TextureWidth, TextureHeight },
 				{ PositionsX[index], PositionsY[index], Widths[index], Heights[index]});
 		}
 	}
@@ -83,6 +79,9 @@ namespace Engine
 
 	void EntityContainerBase::ShutDown()
 	{
+		SDL_DestroyTexture(Sprite);
+		Sprite = nullptr;
+
 		IndexCounter = 0;
 
 		delete []PositionsX;

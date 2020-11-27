@@ -12,6 +12,7 @@ void EnemyContainer::Move()
 
 		if (PositionsY[index] - TextureHeight > MaxScreenY)
 		{
+			//BackToPool(index);
 			PositionsX[index] = RandomPositionX();
 			PositionsY[index] =  -TextureHeight;
 		}
@@ -22,7 +23,5 @@ void EnemyContainer::Move()
 
 short EnemyContainer::RandomPositionX()
 {
-	short posX = rand() % (MaxScreenX - TextureWidth);
-	std::cout << posX << std::endl;
-	return posX;
+	return rand() % (MaxScreenX - TextureWidth);
 }

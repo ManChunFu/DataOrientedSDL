@@ -30,6 +30,9 @@
     <ClInclude Include="LaserContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SpawnManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SpaceShooter.cpp">
@@ -42,6 +45,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LaserConainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpawnManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

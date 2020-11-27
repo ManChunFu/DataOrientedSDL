@@ -20,12 +20,13 @@ namespace Engine
 		short IndexCounter = 0;
 		short TextureWidth, TextureHeight = 0;
 		short MaxLength;
+		SDL_Texture* Sprite;
 
-		void Init(short maxLength, short maxScreenX, short maxScreenY, short textureWidth, short textureHeight);
+		void Init(short maxLength, short maxScreenX, short maxScreenY, short textureWidth, short textureHeight, const std::string& path);
 		void Add(short positionX, short positionY, short widths, short height);
 		void BackToPool(short index);
 		SDL_Texture* AddImage(const std::string& path);
-		void Render(SDL_Texture* sprite);
+		void Render();
 		void ShutDown();
 		short CheckEntityUsage();
 		

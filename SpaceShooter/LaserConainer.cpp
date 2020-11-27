@@ -20,7 +20,7 @@ void LaserContainer::Move(EnemyContainer& enemyContainer)
 
 bool LaserContainer::CheckCollision(short positionY, short positionX, EnemyContainer& enemyContainer)
 {
-	for (short index = 0; index < IndexCounter; index++)
+	for (short index = 0; index < enemyContainer.IndexCounter; index++)
 	{
 		if (enemyContainer.Usages[index])
 		{

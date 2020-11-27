@@ -147,6 +147,7 @@
     <ClCompile Include="LaserConainer.cpp" />
     <ClCompile Include="PlayerContainer.cpp" />
     <ClCompile Include="SpaceShooter.cpp" />
+    <ClCompile Include="SpawnManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataOrientedSDL\DataOrientedSDL.vcxproj">
@@ -158,6 +159,7 @@
     <ClInclude Include="LaserContainer.h" />
     <ClInclude Include="PlayerContainer.h" />
     <ClInclude Include="SpaceShooter.h" />
+    <ClInclude Include="SpawnManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
