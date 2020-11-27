@@ -9,10 +9,10 @@ public:
 	const short Speed = 800;
 	const Uint8 InstantiateOffsetX = 31;
 	const Uint8 InstantiateOffsetY = 45;
-	void Move(EnemyContainer& enemyContainer);
+	void Move(EnemyContainer& enemies);
 
 
 private:
-	bool CheckCollision(short positionY, short positionX, EnemyContainer& enemyContainer);
+	bool CheckCollision(short positionY, short positionX, EnemyContainer& enemies);
 };
 

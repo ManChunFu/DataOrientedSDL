@@ -19,6 +19,7 @@ Engine::Application* Engine::CreateApplication()
 	
 Engine::Application* App;
 SDL_Texture* _backgroundTexture;
+SDL_Texture* _ui;
 Engine::RenderBase background;
 PlayerContainer playerContainer;
 LaserContainer laserContainer;

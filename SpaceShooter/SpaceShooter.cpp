@@ -53,6 +53,9 @@ bool Engine::Application::Initialize()
 	// Background
 	_backgroundTexture = background.CreateTexture("Assets/SpaceBG_Overlay.png");
 	
+	// UI
+	_ui = background.CreateTexture("Assets/UI/Three.png");
+
 	// Player
 	playerContainer.Init(1, background.MaxScreenX, background.MaxScreenY, 70, 90, "Assets/Player.png");
 	playerContainer.Add(700, 800, playerContainer.TextureWidth, playerContainer.TextureHeight);
@@ -99,18 +102,14 @@ void Engine::Application::Update()
 	if (spawnManager.SpawnTimer > spawnManager.EnemySpawnRate)
 	{
 		spawnManager.SpawnTimer = 0;
-		spawnManager.AddWave((rand() % 10), enemyContainer);
-		//spawnManager.AddWave(3, enemyContainer); 
+		spawnManager.AddWave((rand() % 5), enemyContainer);
 	}
 
 	enemyContainer.Move();
 	laserContainer.Move(enemyContainer);
+	playerContainer.CheckCollision(enemyContainer);
 }
 
-void Engine::Application::CheckCollision()
-{
-
-}
 
 void Engine::Application::ListenInputs()
 {
@@ -135,6 +134,7 @@ void Engine::Application::Render()
 
 	//Background
 	background.Draw(_backgroundTexture, { 0, 0, 1440, 900 }, { 0, 0, background.MaxScreenX, background.MaxScreenY });
+	background.Draw(_ui, { 0, 0, 154, 65 }, { 10, 10, 154, 65 });
 
 	//Player
 	playerContainer.Render();

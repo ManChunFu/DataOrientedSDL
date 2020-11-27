@@ -11,14 +11,14 @@ void LaserContainer::Move(EnemyContainer& enemyContainer)
 
 		if (PositionsY[index] + Heights[index] < 0)
 			BackToPool(index);
-		else if (CheckCollision(PositionsY[index], PositionsX[index], enemyContainer))
+		else if (CheckCollision(PositionsX[index], PositionsY[index], enemyContainer))
 			BackToPool(index);
 		else
 			PositionsY[index] -= Speed * Engine::GameTime::DeltaTime();
 	}
 }
 
-bool LaserContainer::CheckCollision(short positionY, short positionX, EnemyContainer& enemyContainer)
+bool LaserContainer::CheckCollision(short positionX, short positionY, EnemyContainer& enemyContainer)
 {
 	for (short index = 0; index < enemyContainer.IndexCounter; index++)
 	{

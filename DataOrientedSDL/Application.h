@@ -22,7 +22,6 @@ namespace Engine
 		void Run();
 		void Update();
 		void ShutDown();
-		void CheckCollision();
 		Engine::Window* Window = nullptr;
 		Engine::InputSystem* InputSystem = nullptr;
 		bool IsPause = false;
