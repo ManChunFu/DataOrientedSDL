@@ -50,18 +50,23 @@ bool Engine::Application::Initialize()
 
 	InputSystem = new Engine::InputSystem();
 	
-	// new codes
+	// Background
 	_backgroundTexture = background.CreateTexture("Assets/SpaceBG_Overlay.png");
 	
-	// player
+	// Player
 	playerContainer.Init(1, background.MaxScreenX, background.MaxScreenY, 70, 90);
 	playerContainer.Sprite = playerContainer.AddImage("Assets/Player.png");
-	playerContainer.Add(500, 500, 70, 90);
+	playerContainer.Add(700, 800, playerContainer.TextureWidth, playerContainer.TextureHeight);
 
 	// Laser
-	laserContainer.Init(10, background.MaxScreenX, background.MaxScreenY, 10, 50);
+	laserContainer.Init(10, background.MaxScreenX, background.MaxScreenY, 8, 40);
 	laserContainer.Sprite = laserContainer.AddImage("Assets/laser.png");
 
+	// Enemy
+	enemyContainer.Init(10, background.MaxScreenX, background.MaxScreenY, 100, 130);
+	enemyContainer.Sprite = enemyContainer.AddImage("Assets/Enemy.png");
+
+	//laserContainer.enemyContainer = enemyContainer;
 	return true;
 }
 
@@ -93,7 +98,21 @@ void Engine::Application::Run()
 
 void Engine::Application::Update()
 {
-	laserContainer.Move();
+	spawnTimer += Engine::GameTime::DeltaTime();
+
+	laserContainer.Move(enemyContainer);
+
+	if (spawnTimer > spawnRate)
+	{
+		spawnTimer = 0;
+		enemyContainer.Add(enemyContainer.RandomPositionX(), -enemyContainer.TextureHeight, enemyContainer.TextureWidth, enemyContainer.TextureHeight);
+	}
+	enemyContainer.Move();
+}
+
+void Engine::Application::CheckCollision()
+{
+
 }
 
 void Engine::Application::ListenInputs()
@@ -108,8 +127,8 @@ void Engine::Application::ListenInputs()
 
 	if (InputSystem->IsKeyPressed(Keys::SPACE))
 	{
-		// 31 => size of player half width sprite + laser half width sprite. 45 => size of player half height sprite
-		laserContainer.Add((playerContainer.PositionsX[0] + 31), (playerContainer.PositionsY[0] - 45), 10, 50);
+		laserContainer.Add((playerContainer.PositionsX[0] + laserContainer.InstantiateOffsetX), 
+			(playerContainer.PositionsY[0] - laserContainer.InstantiateOffsetY), laserContainer.TextureWidth, laserContainer.TextureHeight);
 	}
 }
 
@@ -125,6 +144,9 @@ void Engine::Application::Render()
 
 	//Laser
 	laserContainer.Render(laserContainer.Sprite);
+
+	//Enemy
+	enemyContainer.Render(enemyContainer.Sprite);
 
 	Engine::Window::RenderPresent();
 }
@@ -143,6 +165,7 @@ void Engine::Application::ShutDown()
 	
 	playerContainer.ShutDown();
 	laserContainer.ShutDown();
+	enemyContainer.ShutDown();
 
 	IMG_Quit();
 	SDL_Quit();

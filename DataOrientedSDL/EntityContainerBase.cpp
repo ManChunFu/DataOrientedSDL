@@ -4,7 +4,7 @@
 
 namespace Engine
 {
-	void EntityContainerBase::Init(short maxLength, short maxScreenX, short maxScreenY, Uint8 textureWidth, Uint8 textureHeight)
+	void EntityContainerBase::Init(short maxLength, short maxScreenX, short maxScreenY, short textureWidth, short textureHeight)
 	{
 		MaxLength = maxLength;
 		PositionsX = new short[MaxLength];
@@ -16,8 +16,8 @@ namespace Engine
 		MaxScreenX = maxScreenX;
 		MaxScreenY = maxScreenY;
 
-		_textureWidth = textureWidth;
-		_textureHeight = textureHeight;
+		TextureWidth = textureWidth;
+		TextureHeight = textureHeight;
 
 	}
 
@@ -27,11 +27,16 @@ namespace Engine
 		{ 
 			short unusedIndex = CheckEntityUsage();
 			
- 			PositionsX[unusedIndex] = positionX;
-			PositionsY[unusedIndex] = positionY;
-			Widths[unusedIndex] = width;
-			Heights[unusedIndex] = height;
-			Usages[unusedIndex] = true;
+			if (unusedIndex != -1)
+			{
+				PositionsX[unusedIndex] = positionX;
+				PositionsY[unusedIndex] = positionY;
+				Widths[unusedIndex] = width;
+				Heights[unusedIndex] = height;
+				Usages[unusedIndex] = true;
+			}
+			else
+				return;
 		}
 		else
 		{
@@ -70,7 +75,7 @@ namespace Engine
 		for (Uint16 index = 0; index < IndexCounter; index++)
 		{
 			if (Usages[index])
-				Draw(sprite, { 0, 0, _textureWidth, _textureHeight },
+				Draw(sprite, { 0, 0, TextureWidth, TextureHeight },
 				{ PositionsX[index], PositionsY[index], Widths[index], Heights[index]});
 		}
 	}

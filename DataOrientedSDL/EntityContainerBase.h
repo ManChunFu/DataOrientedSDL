@@ -18,10 +18,10 @@ namespace Engine
 
 		short MaxScreenX, MaxScreenY;
 		short IndexCounter = 0;
-		Uint8 _textureWidth, _textureHeight = 0;
+		short TextureWidth, TextureHeight = 0;
 		short MaxLength;
 
-		void Init(short maxLength, short maxScreenX, short maxScreenY, Uint8 textureWidth, Uint8 textureHeight);
+		void Init(short maxLength, short maxScreenX, short maxScreenY, short textureWidth, short textureHeight);
 		void Add(short positionX, short positionY, short widths, short height);
 		void BackToPool(short index);
 		SDL_Texture* AddImage(const std::string& path);

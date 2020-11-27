@@ -22,7 +22,7 @@ namespace Engine
 		void Run();
 		void Update();
 		void ShutDown();
-		//void LoadScene(Uint8 scene);
+		void CheckCollision();
 		Engine::Window* Window = nullptr;
 		Engine::InputSystem* InputSystem = nullptr;
 		bool IsPause = false;

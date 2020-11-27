@@ -1,12 +1,28 @@
 #include "EnemyContainer.h"
 
 #include <GameTime.h>
+#include <iostream>
 
 void EnemyContainer::Move()
 {
 	for(short index = 0; index < IndexCounter; index++)
 	{
+		if (!Usages[index])
+			continue;
 
-		PositionsY[index] += Speed * Engine::GameTime::DeltaTime();
+		if (PositionsY[index] - TextureHeight > MaxScreenY)
+		{
+			PositionsX[index] = RandomPositionX();
+			PositionsY[index] =  -TextureHeight;
+		}
+		else
+			PositionsY[index] += Speed * Engine::GameTime::DeltaTime();
 	}
+}
+
+short EnemyContainer::RandomPositionX()
+{
+	short posX = rand() % (MaxScreenX - TextureWidth);
+	std::cout << posX << std::endl;
+	return posX;
 }
