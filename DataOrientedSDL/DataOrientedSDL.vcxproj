@@ -148,7 +148,6 @@
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Scene.h" />
     <ClInclude Include="RenderBase.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
@@ -156,7 +155,6 @@
     <ClCompile Include="EntityContainerBase.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="InputSystem.cpp" />
-    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="RenderBase.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>

@@ -7,9 +7,8 @@
 
 namespace Engine
 {
-	struct EntityContainerBase : public RenderBase
+	typedef struct EntityContainerBase : public RenderBase
 	{
-	public:
 		short* PositionsX;
 		short* PositionsY;
 		short* Widths;
@@ -30,6 +29,7 @@ namespace Engine
 		void ShutDown();
 		short CheckEntityUsage();
 		
-	};
+	} EntityContainerBase;
+	
 }
 

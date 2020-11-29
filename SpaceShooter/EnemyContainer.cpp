@@ -12,7 +12,6 @@ void EnemyContainer::Move()
 
 		if (PositionsY[index] - TextureHeight > MaxScreenY)
 		{
-			//BackToPool(index);
 			PositionsX[index] = RandomPositionX();
 			PositionsY[index] =  -TextureHeight;
 		}

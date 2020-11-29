@@ -3,8 +3,16 @@
 #include <iostream>
 #include <SDL_image.h>
 #include <GameTime.h>
-#include <RenderBase.h>
+#include "UI.h"
+#include "PlayerContainer.h"
+#include "LaserContainer.h"
+#include "EnemyContainer.h"
+#include "SpawnManager.h"
 
+PlayerContainer playerContainer;
+LaserContainer laserContainer;
+EnemyContainer enemyContainer;
+SpawnManager spawnManager;
 
 int main(int argc, char** argv)
 {
@@ -40,7 +48,7 @@ bool Engine::Application::Initialize()
 		return false;
 	}
 
-	Window = new Engine::Window("Main Window", background.MaxScreenX = 1440, background.MaxScreenY = 900);
+	Window = new Engine::Window("Main Window", 1440, 900);
 
 	if (!Window->Init())
 	{
@@ -50,21 +58,19 @@ bool Engine::Application::Initialize()
 
 	InputSystem = new Engine::InputSystem();
 	
-	// Background
-	_backgroundTexture = background.CreateTexture("Assets/SpaceBG_Overlay.png");
-	
 	// UI
-	_ui = background.CreateTexture("Assets/UI/Three.png");
+	Ui = new UI();
+	Ui->Init();
 
 	// Player
-	playerContainer.Init(1, background.MaxScreenX, background.MaxScreenY, 70, 90, "Assets/Player.png");
+	playerContainer.Init(1, Ui->MaxScreenX, Ui->MaxScreenY, 70, 90, "Assets/Player.png");
 	playerContainer.Add(700, 800, playerContainer.TextureWidth, playerContainer.TextureHeight);
 
 	// Laser
-	laserContainer.Init(50, background.MaxScreenX, background.MaxScreenY, 8, 40, "Assets/laser.png");
+	laserContainer.Init(50, Ui->MaxScreenX, Ui->MaxScreenY, 8, 40, "Assets/laser.png");
 
 	// Enemy
-	enemyContainer.Init(50, background.MaxScreenX, background.MaxScreenY, 100, 130, "Assets/Enemy.png");
+	enemyContainer.Init(50, Ui->MaxScreenX, Ui->MaxScreenY, 100, 130, "Assets/Enemy.png");
 
 	return true;
 }
@@ -104,12 +110,14 @@ void Engine::Application::Update()
 		spawnManager.SpawnTimer = 0;
 		spawnManager.AddWave((rand() % 5), enemyContainer);
 	}
-
 	enemyContainer.Move();
-	laserContainer.Move(enemyContainer);
-	playerContainer.CheckCollision(enemyContainer);
-}
 
+	if (!playerContainer.IsDead)
+	{
+		playerContainer.CheckCollision(enemyContainer, Ui);
+		laserContainer.Move(enemyContainer);
+	}
+}
 
 void Engine::Application::ListenInputs()
 {
@@ -119,8 +127,12 @@ void Engine::Application::ListenInputs()
 		IsRunning = false;
 
 	//Player
+	if (playerContainer.IsDead)
+		return;
+
 	playerContainer.Move(InputSystem->GetAxis("Horizontal"), InputSystem->GetAxis("Vertical"));
 
+	//Laser
 	if (InputSystem->IsKeyPressed(Keys::SPACE))
 	{
 		laserContainer.Add((playerContainer.PositionsX[0] + laserContainer.InstantiateOffsetX), 
@@ -132,15 +144,16 @@ void Engine::Application::Render()
 {
 	SDL_SetRenderDrawColor(Engine::Window::Renderer, 100, 100, 100, 255);//background color
 
-	//Background
-	background.Draw(_backgroundTexture, { 0, 0, 1440, 900 }, { 0, 0, background.MaxScreenX, background.MaxScreenY });
-	background.Draw(_ui, { 0, 0, 154, 65 }, { 10, 10, 154, 65 });
-
+	Ui->Render(playerContainer.IsDead);
+	
 	//Player
-	playerContainer.Render();
+	if (!playerContainer.IsDead)
+	{
+		playerContainer.Render();
 
-	//Laser
-	laserContainer.Render();
+		//Laser
+		laserContainer.Render();
+	}
 
 	//Enemy
 	enemyContainer.Render();
@@ -163,6 +176,9 @@ void Engine::Application::ShutDown()
 	playerContainer.ShutDown();
 	laserContainer.ShutDown();
 	enemyContainer.ShutDown();
+
+	if (Ui)
+	Ui->ShutDown();
 
 	IMG_Quit();
 	SDL_Quit();

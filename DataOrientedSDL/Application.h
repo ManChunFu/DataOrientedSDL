@@ -9,8 +9,6 @@ namespace Engine
 {
 	class Window;
 	class InputSystem;
-	class EntityContainerBase;
-
 	class Application
 	{
 	public:
@@ -26,11 +24,8 @@ namespace Engine
 		Engine::InputSystem* InputSystem = nullptr;
 		bool IsPause = false;
 		bool IsRunning = true;
-		Uint8 ActiveScene;
 
 	private:
-		//std::vector<Scene*> _scenes;
-		//void Update();
 		void ListenInputs();
 		void Render();
 	};

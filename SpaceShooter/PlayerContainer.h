@@ -3,11 +3,15 @@
 #include <EntityContainerBase.h>
 #include "EnemyContainer.h"
 
-struct PlayerContainer : public Engine::EntityContainerBase
+class UI;
+typedef struct PlayerContainer : public Engine::EntityContainerBase
 {
-public:
 	const short Speed = 300;
 	void Move(short inputX, short inputY);
-	void CheckCollision(EnemyContainer& enemyContainer);
-};
+	void CheckCollision(EnemyContainer& enemyContainer, UI* ui);
+	bool IsDead = false;
+	Uint8 currentLives = 3;
+	void Damage(UI* ui);
+
+} PlayerContainer;
 

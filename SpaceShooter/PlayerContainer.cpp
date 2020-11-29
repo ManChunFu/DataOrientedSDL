@@ -1,6 +1,8 @@
 #include "PlayerContainer.h"
 
 #include <GameTime.h>
+#include "UI.h"
+
 
 // it's only one player, so the index = 0
 void PlayerContainer::Move(short inputX, short inputY)
@@ -15,7 +17,7 @@ void PlayerContainer::Move(short inputX, short inputY)
 
 }
 
-void PlayerContainer::CheckCollision(EnemyContainer& enemyContainer)
+void PlayerContainer::CheckCollision(EnemyContainer& enemyContainer, UI* ui)
 {
 	for (short index = 0; index < enemyContainer.IndexCounter; index++)
 	{
@@ -26,11 +28,25 @@ void PlayerContainer::CheckCollision(EnemyContainer& enemyContainer)
 				short enemyPositionX = enemyContainer.PositionsX[index];
 				short playerPositionX = PositionsX[0];
 				if ((playerPositionX > enemyPositionX && playerPositionX < enemyPositionX + enemyContainer.TextureWidth) ||
-				    (playerPositionX + TextureWidth > enemyPositionX && playerPositionX + TextureWidth < enemyPositionX + enemyContainer.TextureWidth))
-					BackToPool(0);
+					(playerPositionX + TextureWidth > enemyPositionX && playerPositionX + TextureWidth < enemyPositionX + enemyContainer.TextureWidth))
+				{
+					enemyContainer.BackToPool(index);
+					Damage(ui);
+				}
 			}
 		}
 	}
+}
+
+void PlayerContainer::Damage(UI* ui)
+{
+	if (--currentLives == 0)
+	{
+		IsDead = true;
+		BackToPool(0);
+	}
+
+	ui->currentLives = currentLives;
 }
 
 
