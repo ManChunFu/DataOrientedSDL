@@ -66,10 +66,10 @@ bool Engine::Application::Initialize()
 	playerContainer.Initilize();
 
 	// Laser
-	laserContainer.Init(30, Ui->MaxScreenX, Ui->MaxScreenY, 8, 40, "Assets/laser.png");
+	laserContainer.Init(20, Ui->MaxScreenX, Ui->MaxScreenY, 8, 40, "Assets/laser.png");
 
 	// Enemy
-	enemyContainer.Init(30, Ui->MaxScreenX, Ui->MaxScreenY, 100, 130, "Assets/Enemy.png");
+	enemyContainer.Init(20, Ui->MaxScreenX, Ui->MaxScreenY, 100, 130, "Assets/Enemy.png");
 
 	// Explosion
 	Explo = new Explosion();
@@ -111,7 +111,7 @@ void Engine::Application::Update()
 	if (spawnManager.SpawnTimer > spawnManager.EnemySpawnRate)
 	{
 		spawnManager.SpawnTimer = 0;
-		spawnManager.AddWave((rand() % 8), enemyContainer);
+		spawnManager.AddWave((rand() % 5), enemyContainer);
 	}
 	enemyContainer.Move();
 
@@ -183,12 +183,20 @@ void Engine::Application::ShutDown()
 	playerContainer.ShutDownAll();
 	laserContainer.ShutDown();
 	enemyContainer.ShutDown();
-
+	
 	if (Ui)
+	{
 		Ui->ShutDown();
+		delete Ui;
+		Ui = nullptr;
+	}
 
 	if (Explo)
+	{
 		Explo->ShutDown();
+		delete Explo;
+		Explo = nullptr;
+	}
 
 	IMG_Quit();
 	SDL_Quit();

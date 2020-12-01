@@ -27,7 +27,10 @@ bool LaserContainer::CheckCollision(short positionX, short positionY, EnemyConta
 	{
 		if (enemyContainer.Usages[index])
 		{
-			if (positionY <= enemyContainer.PositionsY[index] + enemyContainer.TextureHeight * SpriteIndentOffset)
+			short enemyPositionY = enemyContainer.PositionsY[index];
+			short laserYOffset = TextureHeight * SpriteIndentOffset;
+			if (positionY > enemyPositionY && positionY < (enemyPositionY + enemyContainer.TextureHeight * SpriteIndentOffset) ||
+				(positionY + laserYOffset) > enemyPositionY && (positionY + laserYOffset) < (enemyPositionY + enemyContainer.TextureWidth * SpriteIndentOffset))
 			{
 				short enemyPositionX = enemyContainer.PositionsX[index];
 				if (positionX > enemyPositionX && positionX < enemyPositionX + enemyContainer.TextureWidth * SpriteIndentOffset)

@@ -110,7 +110,12 @@ void PlayerContainer::CheckCollision(EnemyContainer& enemyContainer, UI* ui, Exp
 	{
 		if (enemyContainer.Usages[index])
 		{
-			if (PositionsY[0] <= enemyContainer.PositionsY[index] + (enemyContainer.TextureHeight * SpriteIndentOffset))
+			short enemyPositionY = enemyContainer.PositionsY[index];
+			short playerPositionY = PositionsY[0];
+			short playerYOffset = TextureHeight * SpriteIndentOffset;
+
+			if (playerPositionY > enemyPositionY && playerPositionY < (enemyPositionY + enemyContainer.TextureHeight * SpriteIndentOffset) ||
+				(playerPositionY + playerYOffset) > enemyPositionY && (playerPositionY + playerYOffset) < (enemyPositionY + enemyContainer.TextureHeight))
 			{
 				short enemyPositionX = enemyContainer.PositionsX[index];
 				short playerPositionX = PositionsX[0];
