@@ -45,13 +45,13 @@ void PlayerContainer::RenderMovement()
 	switch (Directions)
 	{
 	case PlayerContainer::Left:
-		for (Uint8 index = 0; index < 8; index++)
+		for (Uint8 index = 0; index < TurningSpritesLength; index++)
 		{
 			Draw(TurningSprites[index], { 0, 0, 70, 91, }, { PositionsX[0], PositionsY[0], 70, 91 });
 		}
 		break;
 	case PlayerContainer::Right:
-		for (Uint8 index = 0; index < 8; index++)
+		for (Uint8 index = 0; index < TurningSpritesLength; index++)
 		{
 			Draw(TurningSprites[index], { 0, 0, 70, 91, }, { PositionsX[0], PositionsY[0], 70, 91 }, 0, SDL_FLIP_HORIZONTAL);
 		}
@@ -64,7 +64,7 @@ void PlayerContainer::RenderMovement()
 	if (currentLives < 3)
 	{
 		FrameTime++;
-		for (Uint8 index = 0; index < 13; index++)
+		for (Uint8 index = 0; index < FireSpritesLength; index++)
 		{
 			if (FrameTime > FrameRate)
 			{
