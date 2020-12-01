@@ -5,7 +5,7 @@
 void UI::Init()
 {
 	BackgroundSprite = CreateTexture("Assets/Sky.png");
-	LiveSprites = new SDL_Texture * [4]
+	LiveSprites = new SDL_Texture* [LiveSpritesLength]
 	{
 		CreateTexture("Assets/UI/no_lives.png"),
 		CreateTexture("Assets/UI/One.png"),
@@ -36,11 +36,12 @@ void UI::ShutDown()
 	SDL_DestroyTexture(BackgroundSprite);
 	BackgroundSprite = nullptr;
 
-	for (Uint8 index = 0; index < 4; index++)
+	for (Uint8 index = 0; index < LiveSpritesLength; index++)
 	{
 		SDL_DestroyTexture(LiveSprites[index]);
 		LiveSprites[index] = nullptr;
 	}
+	LiveSprites = nullptr;
 
 	SDL_DestroyTexture(GameOverSprite);
 	GameOverSprite = nullptr;

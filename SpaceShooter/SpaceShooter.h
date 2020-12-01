@@ -3,6 +3,7 @@
 #include <Application.h>
 
 class UI;
+class Explosion;
 
 class SpaceShooter : public Engine::Application {};
 
@@ -13,6 +14,6 @@ Engine::Application* Engine::CreateApplication()
 	
 Engine::Application* App;
 UI* Ui;
-
+Explosion* Explo;
 
 

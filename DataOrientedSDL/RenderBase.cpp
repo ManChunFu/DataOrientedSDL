@@ -1,5 +1,4 @@
 #include "RenderBase.h"
-
 #include <SDL_image.h>
 #include <iostream>
 
@@ -33,6 +32,5 @@ namespace Engine
 
 		return nullptr;
 	}
-
 }
 

@@ -32,12 +32,10 @@ namespace Engine
 		bool IsKeyReleased(Keys key);
 		int GetAxis(std::string Axis);
 		int GetAction(std::string action);
-
 	private:
 		bool IsKeyPressedScancode(SDL_Scancode key) const;
 		bool IsKeyReleasedScancode(SDL_Scancode key) const;
 		void SetMouseCursor(SDL_SystemCursor newCursor);
-
 		static SDL_Event _event;
 		const Uint8* _keys = nullptr;
 		Uint8 _lastKeys[256];

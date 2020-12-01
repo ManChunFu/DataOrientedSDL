@@ -58,8 +58,7 @@ namespace Engine
 	void EntityContainerBase::BackToPool(short index)
 	{
 		Usages[index] = false;
-}
-	
+	}
 
 	SDL_Texture* EntityContainerBase::AddImage(const std::string& path)
 	{
@@ -72,10 +71,9 @@ namespace Engine
 		{
 			if (Usages[index])
 				Draw(Sprite, { 0, 0, TextureWidth, TextureHeight },
-				{ PositionsX[index], PositionsY[index], Widths[index], Heights[index]});
+					{ PositionsX[index], PositionsY[index], Widths[index], Heights[index] });
 		}
 	}
-
 
 	void EntityContainerBase::ShutDown()
 	{
@@ -84,20 +82,19 @@ namespace Engine
 
 		IndexCounter = 0;
 
-		delete []PositionsX;
+		delete[]PositionsX;
 		PositionsX = nullptr;
 
-		delete []PositionsY;
+		delete[]PositionsY;
 		PositionsY = nullptr;
 
-		delete []Widths;
+		delete[]Widths;
 		Widths = nullptr;
 
-		delete []Heights;
+		delete[]Heights;
 		Heights = nullptr;
 
 		delete[]Usages;
 		Usages = nullptr;
 	}
-
 }

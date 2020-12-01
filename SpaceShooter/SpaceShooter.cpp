@@ -8,6 +8,7 @@
 #include "LaserContainer.h"
 #include "EnemyContainer.h"
 #include "SpawnManager.h"
+#include "Explosion.h"
 
 PlayerContainer playerContainer;
 LaserContainer laserContainer;
@@ -17,7 +18,6 @@ SpawnManager spawnManager;
 int main(int argc, char** argv)
 {
 	App = new Engine::Application();
-
 	if (!App->Initialize())
 	{
 		App->ShutDown();
@@ -63,15 +63,17 @@ bool Engine::Application::Initialize()
 	Ui->Init();
 
 	// Player
-	//playerContainer.Init(1, Ui->MaxScreenX, Ui->MaxScreenY, 70, 90, "Assets/Player.png");
-	//playerContainer.Add(700, 800, playerContainer.TextureWidth, playerContainer.TextureHeight);
 	playerContainer.Initilize();
 
 	// Laser
-	laserContainer.Init(50, Ui->MaxScreenX, Ui->MaxScreenY, 8, 40, "Assets/laser.png");
+	laserContainer.Init(30, Ui->MaxScreenX, Ui->MaxScreenY, 8, 40, "Assets/laser.png");
 
 	// Enemy
-	enemyContainer.Init(50, Ui->MaxScreenX, Ui->MaxScreenY, 100, 130, "Assets/Enemy.png");
+	enemyContainer.Init(30, Ui->MaxScreenX, Ui->MaxScreenY, 100, 130, "Assets/Enemy.png");
+
+	// Explosion
+	Explo = new Explosion();
+	Explo->Init();
 
 	return true;
 }
@@ -109,14 +111,14 @@ void Engine::Application::Update()
 	if (spawnManager.SpawnTimer > spawnManager.EnemySpawnRate)
 	{
 		spawnManager.SpawnTimer = 0;
-		spawnManager.AddWave((rand() % 5), enemyContainer);
+		spawnManager.AddWave((rand() % 8), enemyContainer);
 	}
 	enemyContainer.Move();
 
 	if (!playerContainer.IsDead)
 	{
-		playerContainer.CheckCollision(enemyContainer, Ui);
-		laserContainer.Move(enemyContainer);
+		playerContainer.CheckCollision(enemyContainer, Ui, Explo);
+		laserContainer.Move(enemyContainer, Explo);
 	}
 }
 
@@ -147,18 +149,21 @@ void Engine::Application::Render()
 
 	Ui->Render(playerContainer.IsDead);
 	
+	//Explosion
+	if (Explo->IsExploding)
+		Explo->Render();
+
+	//Enemy
+	enemyContainer.Render();
+
 	//Player
 	if (!playerContainer.IsDead)
 	{
-		//playerContainer.Render();
 		playerContainer.RenderMovement();
 
 		//Laser
 		laserContainer.Render();
 	}
-
-	//Enemy
-	enemyContainer.Render();
 
 	Engine::Window::RenderPresent();
 }
@@ -180,7 +185,10 @@ void Engine::Application::ShutDown()
 	enemyContainer.ShutDown();
 
 	if (Ui)
-	Ui->ShutDown();
+		Ui->ShutDown();
+
+	if (Explo)
+		Explo->ShutDown();
 
 	IMG_Quit();
 	SDL_Quit();
