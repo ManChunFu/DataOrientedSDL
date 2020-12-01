@@ -2,6 +2,8 @@
 
 #include <GameTime.h>
 
+#pragma warning(disable: 4244)
+
 void LaserContainer::Move(EnemyContainer& enemyContainer)
 {
 	for (Uint8 index = 0; index < IndexCounter; index++)

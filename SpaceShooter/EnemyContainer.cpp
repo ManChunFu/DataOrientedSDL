@@ -3,6 +3,8 @@
 #include <GameTime.h>
 #include <iostream>
 
+#pragma warning(disable: 4244)
+
 void EnemyContainer::Move()
 {
 	for(short index = 0; index < IndexCounter; index++)

@@ -1,8 +1,10 @@
 #include "UI.h"
 
+#pragma warning(disable: 4244)
+
 void UI::Init()
 {
-	BackgroundSprite = CreateTexture("Assets/Universe1440.png");
+	BackgroundSprite = CreateTexture("Assets/Sky.png");
 	LiveSprites = new SDL_Texture * [4]
 	{
 		CreateTexture("Assets/UI/no_lives.png"),
@@ -11,19 +13,22 @@ void UI::Init()
 		CreateTexture("Assets/UI/Three.png")
 	};
 	GameOverSprite = CreateTexture("Assets/UI/GameOver.png");
+	QuitSprite = CreateTexture("Assets/UI/Quit.png");
 }
 
 void UI::Render(bool isGameEnd)
 {
-	Draw(BackgroundSprite, { 0, 0, 1440, 900 }, { 0, 0, MaxScreenX, MaxScreenY });
+	Draw(BackgroundSprite, { 0, 0, 1440, 900 }, { 0, (short)currentBGPosY, MaxScreenX, MaxScreenY });
+	Draw(BackgroundSprite, { 0, 0, 1440, 900 }, { 0, (short)nextBGPosY, MaxScreenX, MaxScreenY });
+	Draw(QuitSprite, { 0, 0, 150, 36 }, { 1280, 10, 150, 36 });
 
 	if (currentLives > -1)
 		Draw(LiveSprites[currentLives], { 0, 0, 154, 65 }, { 10, 10, 154, 65 });
 
-	if (isGameEnd)
+	if(isGameEnd)
 		Draw(GameOverSprite, { 0, 0, 512, 512 }, { 450, 200, 512, 512 });
 
-	//BackgroundMove();
+	BackgroundMove();
 }
 
 void UI::ShutDown()
@@ -39,10 +44,16 @@ void UI::ShutDown()
 
 	SDL_DestroyTexture(GameOverSprite);
 	GameOverSprite = nullptr;
+
+	SDL_DestroyTexture(QuitSprite);
+	QuitSprite = nullptr;
 }
 
 void UI::BackgroundMove()
 {
-	
-	currentBGPosY+= (int) 0.1f;
+	if ((currentBGPosY += moveRate) > MaxScreenY)
+		currentBGPosY = -MaxScreenY;
+
+	if ((nextBGPosY += moveRate) > MaxScreenY)
+		nextBGPosY = -MaxScreenY;
 }

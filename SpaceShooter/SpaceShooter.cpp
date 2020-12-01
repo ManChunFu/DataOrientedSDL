@@ -63,8 +63,9 @@ bool Engine::Application::Initialize()
 	Ui->Init();
 
 	// Player
-	playerContainer.Init(1, Ui->MaxScreenX, Ui->MaxScreenY, 70, 90, "Assets/Player.png");
-	playerContainer.Add(700, 800, playerContainer.TextureWidth, playerContainer.TextureHeight);
+	//playerContainer.Init(1, Ui->MaxScreenX, Ui->MaxScreenY, 70, 90, "Assets/Player.png");
+	//playerContainer.Add(700, 800, playerContainer.TextureWidth, playerContainer.TextureHeight);
+	playerContainer.Initilize();
 
 	// Laser
 	laserContainer.Init(50, Ui->MaxScreenX, Ui->MaxScreenY, 8, 40, "Assets/laser.png");
@@ -149,7 +150,8 @@ void Engine::Application::Render()
 	//Player
 	if (!playerContainer.IsDead)
 	{
-		playerContainer.Render();
+		//playerContainer.Render();
+		playerContainer.RenderMovement();
 
 		//Laser
 		laserContainer.Render();
@@ -173,7 +175,7 @@ void Engine::Application::ShutDown()
 		Window = nullptr;
 	}
 	
-	playerContainer.ShutDown();
+	playerContainer.ShutDownAll();
 	laserContainer.ShutDown();
 	enemyContainer.ShutDown();
 

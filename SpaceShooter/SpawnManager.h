@@ -7,7 +7,7 @@ typedef struct SpawnManager
 	float SpawnTimer = 0;
 	Uint8 EnemySpawnRate = 5;
 	void AddWave(Uint8 count, EnemyContainer& enemyContainer);
-	Uint8 SpawnWaveCount;
+	Uint8 SpawnWaveCount = 0;
 
 }SpawnManager;
 

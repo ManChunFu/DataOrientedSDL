@@ -5,9 +5,10 @@
 class UI : public Engine::RenderBase
 {
 public:
-	SDL_Texture* BackgroundSprite;
+	SDL_Texture* BackgroundSprite = nullptr;
 	SDL_Texture** LiveSprites;
-	SDL_Texture* GameOverSprite;
+	SDL_Texture* GameOverSprite = nullptr;
+	SDL_Texture* QuitSprite = nullptr;
 	short MaxScreenX = 1440;
 	short MaxScreenY = 900;
 	void Init();
@@ -17,6 +18,8 @@ public:
 
 private:
 	void BackgroundMove();
-	short currentBGPosY = 0;
+	float currentBGPosY = 0.0f;
+	float nextBGPosY = -900.0f;
+	float moveRate = 0.5f;
 };
 

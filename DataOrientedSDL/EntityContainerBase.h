@@ -15,10 +15,10 @@ namespace Engine
 		short* Heights;
 		bool* Usages;
 
-		short MaxScreenX, MaxScreenY;
+		short MaxScreenX, MaxScreenY = 0;
 		short IndexCounter = 0;
 		short TextureWidth, TextureHeight = 0;
-		short MaxLength;
+		short MaxLength = 0;
 		SDL_Texture* Sprite;
 
 		void Init(short maxLength, short maxScreenX, short maxScreenY, short textureWidth, short textureHeight, const std::string& path);

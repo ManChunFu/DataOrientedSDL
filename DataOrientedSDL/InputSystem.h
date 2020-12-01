@@ -5,7 +5,7 @@
 #include <SDL_events.h>
 #include <string>
 
-
+#pragma warning (disable : 26812)
 
 namespace Engine
 {
